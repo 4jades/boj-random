@@ -39,12 +39,16 @@ const SELECTED_PROBLEMS_PATH = path.join(
 const SOLVED_AC_API_BASE = 'https://solved.ac/api/v3';
 
 // Discord 토큰 (환경변수에서 로드)
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-
-if (!DISCORD_TOKEN) {
-  console.error('❌ DISCORD_TOKEN 환경변수가 설정되지 않았습니다.');
-  process.exit(1);
+function getDiscordToken(): string {
+  const token = process.env.DISCORD_TOKEN;
+  if (!token) {
+    console.error('❌ DISCORD_TOKEN 환경변수가 설정되지 않았습니다.');
+    process.exit(1);
+  }
+  return token;
 }
+
+const DISCORD_TOKEN = getDiscordToken();
 
 interface SolvedProblem {
   problemId: number;
