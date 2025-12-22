@@ -28,10 +28,99 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@types/node", "npm:22.19.3"],\
+          ["discord.js", "npm:14.25.1"],\
           ["tsx", "npm:4.21.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@discordjs/builders", [\
+      ["npm:1.13.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-builders-npm-1.13.1-92fbcf102a-10c0.zip/node_modules/@discordjs/builders/",\
+        "packageDependencies": [\
+          ["@discordjs/builders", "npm:1.13.1"],\
+          ["@discordjs/formatters", "npm:0.6.2"],\
+          ["@discordjs/util", "npm:1.2.0"],\
+          ["@sapphire/shapeshift", "npm:4.0.0"],\
+          ["discord-api-types", "npm:0.38.37"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["ts-mixer", "npm:6.0.4"],\
+          ["tslib", "npm:2.8.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@discordjs/collection", [\
+      ["npm:1.5.3", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-collection-npm-1.5.3-ea9e0ca74b-10c0.zip/node_modules/@discordjs/collection/",\
+        "packageDependencies": [\
+          ["@discordjs/collection", "npm:1.5.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.1.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-collection-npm-2.1.1-fcbdb0bac5-10c0.zip/node_modules/@discordjs/collection/",\
+        "packageDependencies": [\
+          ["@discordjs/collection", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@discordjs/formatters", [\
+      ["npm:0.6.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-formatters-npm-0.6.2-2303207b86-10c0.zip/node_modules/@discordjs/formatters/",\
+        "packageDependencies": [\
+          ["@discordjs/formatters", "npm:0.6.2"],\
+          ["discord-api-types", "npm:0.38.37"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@discordjs/rest", [\
+      ["npm:2.6.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-rest-npm-2.6.0-2f2e64077a-10c0.zip/node_modules/@discordjs/rest/",\
+        "packageDependencies": [\
+          ["@discordjs/rest", "npm:2.6.0"],\
+          ["@discordjs/collection", "npm:2.1.1"],\
+          ["@discordjs/util", "npm:1.2.0"],\
+          ["@sapphire/async-queue", "npm:1.5.5"],\
+          ["@sapphire/snowflake", "npm:3.5.5"],\
+          ["@vladfrangu/async_event_emitter", "npm:2.4.7"],\
+          ["discord-api-types", "npm:0.38.37"],\
+          ["magic-bytes.js", "npm:1.12.1"],\
+          ["tslib", "npm:2.8.1"],\
+          ["undici", "npm:6.21.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@discordjs/util", [\
+      ["npm:1.2.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-util-npm-1.2.0-03cc066901-10c0.zip/node_modules/@discordjs/util/",\
+        "packageDependencies": [\
+          ["@discordjs/util", "npm:1.2.0"],\
+          ["discord-api-types", "npm:0.38.37"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@discordjs/ws", [\
+      ["npm:1.2.3", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-ws-npm-1.2.3-7b8183fa17-10c0.zip/node_modules/@discordjs/ws/",\
+        "packageDependencies": [\
+          ["@discordjs/ws", "npm:1.2.3"],\
+          ["@discordjs/collection", "npm:2.1.1"],\
+          ["@discordjs/rest", "npm:2.6.0"],\
+          ["@discordjs/util", "npm:1.2.0"],\
+          ["@sapphire/async-queue", "npm:1.5.5"],\
+          ["@types/ws", "npm:8.18.1"],\
+          ["@vladfrangu/async_event_emitter", "npm:2.4.7"],\
+          ["discord-api-types", "npm:0.38.37"],\
+          ["tslib", "npm:2.8.1"],\
+          ["ws", "virtual:7b8183fa17935e9277c71326b6374a2aa30cbc3f62e9a3e71b424145023cf1b09fd715bb037d68e2ac7b0658583a2df6fc0c9d164660f14b69e2a6c1bacf1f24#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@esbuild/aix-ppc64", [\
@@ -321,12 +410,75 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@sapphire/async-queue", [\
+      ["npm:1.5.5", {\
+        "packageLocation": "../../.yarn/berry/cache/@sapphire-async-queue-npm-1.5.5-56f98d9a34-10c0.zip/node_modules/@sapphire/async-queue/",\
+        "packageDependencies": [\
+          ["@sapphire/async-queue", "npm:1.5.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@sapphire/shapeshift", [\
+      ["npm:4.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@sapphire-shapeshift-npm-4.0.0-4404f163f8-10c0.zip/node_modules/@sapphire/shapeshift/",\
+        "packageDependencies": [\
+          ["@sapphire/shapeshift", "npm:4.0.0"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["lodash", "npm:4.17.21"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@sapphire/snowflake", [\
+      ["npm:3.5.3", {\
+        "packageLocation": "../../.yarn/berry/cache/@sapphire-snowflake-npm-3.5.3-427ca2a4ee-10c0.zip/node_modules/@sapphire/snowflake/",\
+        "packageDependencies": [\
+          ["@sapphire/snowflake", "npm:3.5.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:3.5.5", {\
+        "packageLocation": "../../.yarn/berry/cache/@sapphire-snowflake-npm-3.5.5-b8f02df6fe-10c0.zip/node_modules/@sapphire/snowflake/",\
+        "packageDependencies": [\
+          ["@sapphire/snowflake", "npm:3.5.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/node", [\
       ["npm:22.19.3", {\
         "packageLocation": "../../.yarn/berry/cache/@types-node-npm-22.19.3-0fc033f9b1-10c0.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:22.19.3"],\
           ["undici-types", "npm:6.21.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:25.0.3", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-node-npm-25.0.3-b5e8cb0cae-10c0.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:25.0.3"],\
+          ["undici-types", "npm:7.16.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/ws", [\
+      ["npm:8.18.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-ws-npm-8.18.1-61dc106ff0-10c0.zip/node_modules/@types/ws/",\
+        "packageDependencies": [\
+          ["@types/ws", "npm:8.18.1"],\
+          ["@types/node", "npm:25.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@vladfrangu/async_event_emitter", [\
+      ["npm:2.4.7", {\
+        "packageLocation": "../../.yarn/berry/cache/@vladfrangu-async_event_emitter-npm-2.4.7-d16b2a9399-10c0.zip/node_modules/@vladfrangu/async_event_emitter/",\
+        "packageDependencies": [\
+          ["@vladfrangu/async_event_emitter", "npm:2.4.7"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -355,6 +507,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["boj-random", "workspace:."],\
           ["@types/node", "npm:22.19.3"],\
+          ["discord.js", "npm:14.25.1"],\
           ["tsx", "npm:4.21.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=8c6c40"]\
         ],\
@@ -409,6 +562,37 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/supports-color",\
           "supports-color"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["discord-api-types", [\
+      ["npm:0.38.37", {\
+        "packageLocation": "../../.yarn/berry/cache/discord-api-types-npm-0.38.37-58c7d2011e-10c0.zip/node_modules/discord-api-types/",\
+        "packageDependencies": [\
+          ["discord-api-types", "npm:0.38.37"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["discord.js", [\
+      ["npm:14.25.1", {\
+        "packageLocation": "../../.yarn/berry/cache/discord.js-npm-14.25.1-8185a56e3d-10c0.zip/node_modules/discord.js/",\
+        "packageDependencies": [\
+          ["discord.js", "npm:14.25.1"],\
+          ["@discordjs/builders", "npm:1.13.1"],\
+          ["@discordjs/collection", "npm:1.5.3"],\
+          ["@discordjs/formatters", "npm:0.6.2"],\
+          ["@discordjs/rest", "npm:2.6.0"],\
+          ["@discordjs/util", "npm:1.2.0"],\
+          ["@discordjs/ws", "npm:1.2.3"],\
+          ["@sapphire/snowflake", "npm:3.5.3"],\
+          ["discord-api-types", "npm:0.38.37"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["lodash.snakecase", "npm:4.1.1"],\
+          ["magic-bytes.js", "npm:1.12.1"],\
+          ["tslib", "npm:2.8.1"],\
+          ["undici", "npm:6.21.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -481,6 +665,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/exponential-backoff-npm-3.1.3-28be78d98e-10c0.zip/node_modules/exponential-backoff/",\
         "packageDependencies": [\
           ["exponential-backoff", "npm:3.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["fast-deep-equal", [\
+      ["npm:3.1.3", {\
+        "packageLocation": "../../.yarn/berry/cache/fast-deep-equal-npm-3.1.3-790edcfcf5-10c0.zip/node_modules/fast-deep-equal/",\
+        "packageDependencies": [\
+          ["fast-deep-equal", "npm:3.1.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -626,11 +819,38 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["lodash", [\
+      ["npm:4.17.21", {\
+        "packageLocation": "../../.yarn/berry/cache/lodash-npm-4.17.21-6382451519-10c0.zip/node_modules/lodash/",\
+        "packageDependencies": [\
+          ["lodash", "npm:4.17.21"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["lodash.snakecase", [\
+      ["npm:4.1.1", {\
+        "packageLocation": "../../.yarn/berry/cache/lodash.snakecase-npm-4.1.1-b12cdbecb4-10c0.zip/node_modules/lodash.snakecase/",\
+        "packageDependencies": [\
+          ["lodash.snakecase", "npm:4.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["lru-cache", [\
       ["npm:11.2.4", {\
         "packageLocation": "../../.yarn/berry/cache/lru-cache-npm-11.2.4-3f72660965-10c0.zip/node_modules/lru-cache/",\
         "packageDependencies": [\
           ["lru-cache", "npm:11.2.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["magic-bytes.js", [\
+      ["npm:1.12.1", {\
+        "packageLocation": "../../.yarn/berry/cache/magic-bytes.js-npm-1.12.1-f6b48625e4-10c0.zip/node_modules/magic-bytes.js/",\
+        "packageDependencies": [\
+          ["magic-bytes.js", "npm:1.12.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -944,6 +1164,24 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["ts-mixer", [\
+      ["npm:6.0.4", {\
+        "packageLocation": "../../.yarn/berry/cache/ts-mixer-npm-6.0.4-5d9747bdf5-10c0.zip/node_modules/ts-mixer/",\
+        "packageDependencies": [\
+          ["ts-mixer", "npm:6.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["tslib", [\
+      ["npm:2.8.1", {\
+        "packageLocation": "../../.yarn/berry/cache/tslib-npm-2.8.1-66590b21b8-10c0.zip/node_modules/tslib/",\
+        "packageDependencies": [\
+          ["tslib", "npm:2.8.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["tsx", [\
       ["npm:4.21.0", {\
         "packageLocation": "../../.yarn/berry/cache/tsx-npm-4.21.0-3bc9626d81-10c0.zip/node_modules/tsx/",\
@@ -965,11 +1203,27 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["undici", [\
+      ["npm:6.21.3", {\
+        "packageLocation": "../../.yarn/berry/cache/undici-npm-6.21.3-28d9334837-10c0.zip/node_modules/undici/",\
+        "packageDependencies": [\
+          ["undici", "npm:6.21.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["undici-types", [\
       ["npm:6.21.0", {\
         "packageLocation": "../../.yarn/berry/cache/undici-types-npm-6.21.0-eb2b0ed56a-10c0.zip/node_modules/undici-types/",\
         "packageDependencies": [\
           ["undici-types", "npm:6.21.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:7.16.0", {\
+        "packageLocation": "../../.yarn/berry/cache/undici-types-npm-7.16.0-0e23b08124-10c0.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:7.16.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1000,6 +1254,32 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["which", "npm:6.0.0"],\
           ["isexe", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["ws", [\
+      ["npm:8.18.3", {\
+        "packageLocation": "../../.yarn/berry/cache/ws-npm-8.18.3-665d39209d-10c0.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "npm:8.18.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:7b8183fa17935e9277c71326b6374a2aa30cbc3f62e9a3e71b424145023cf1b09fd715bb037d68e2ac7b0658583a2df6fc0c9d164660f14b69e2a6c1bacf1f24#npm:8.18.3", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-fcefbd12e8/3/.yarn/berry/cache/ws-npm-8.18.3-665d39209d-10c0.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "virtual:7b8183fa17935e9277c71326b6374a2aa30cbc3f62e9a3e71b424145023cf1b09fd715bb037d68e2ac7b0658583a2df6fc0c9d164660f14b69e2a6c1bacf1f24#npm:8.18.3"],\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
         ],\
         "linkType": "HARD"\
       }]\
