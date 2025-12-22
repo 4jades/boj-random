@@ -21,8 +21,8 @@ COPY src ./src
 # 빌드
 RUN yarn build
 
-# selected-problems.json 초기 파일 생성
-RUN echo '{"problems":[]}' > selected-problems.json
+# 선택된 문제 기록 파일 복사
+COPY selected-problems.json ./
 
 # 실행
 CMD ["yarn", "start"]
