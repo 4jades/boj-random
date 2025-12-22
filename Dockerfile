@@ -7,8 +7,12 @@ RUN corepack enable
 
 # 패키지 파일 복사
 COPY package.json yarn.lock ./
-COPY .pnp.cjs .pnp.loader.mjs ./
-COPY .yarn ./.yarn
+
+# nodeLinker를 node-modules로 설정 (PnP 대신)
+RUN echo 'nodeLinker: node-modules' > .yarnrc.yml
+
+# 의존성 설치
+RUN yarn install --immutable
 
 # 소스 복사
 COPY tsconfig.json ./

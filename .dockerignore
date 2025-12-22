@@ -6,4 +6,7 @@ README.md
 config.json
 selected-problems.json
 *.log
-
+.pnp.cjs
+.pnp.loader.mjs
+.yarn
+.vscode
