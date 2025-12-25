@@ -29,12 +29,9 @@ const EXCLUDE_USER_IDS: string[] = [
   'xornjsrlaals',
 ];
 
-// 설정 파일 경로
-const SELECTED_PROBLEMS_PATH = path.join(
-  __dirname,
-  '..',
-  'selected-problems.json'
-);
+// 설정 파일 경로 (fly.io Volume 사용 시 /data, 로컬 개발 시 현재 디렉토리)
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..');
+const SELECTED_PROBLEMS_PATH = path.join(DATA_DIR, 'selected-problems.json');
 
 // solved.ac API 기본 URL
 const SOLVED_AC_API_BASE = 'https://solved.ac/api/v3';

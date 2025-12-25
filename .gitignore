@@ -11,5 +11,7 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
-# Yarn 2+ (Berry)
-.pnp.*
+# Yarn 2+ (Berry) - 런타임 데이터만 제외
+.yarn/install-state.gz
+.yarn/build-state.yml
+.yarn/unplugged

@@ -22,8 +22,16 @@ COPY src ./src
 # 빌드
 RUN yarn build
 
-# 선택된 문제 기록 파일 복사
-COPY selected-problems.json ./
+# 초기 데이터 파일 복사 (Volume이 비어있을 때 사용)
+COPY selected-problems.json ./selected-problems.json.template
+
+# 실행 스크립트 생성
+RUN printf '#!/bin/sh\n\
+if [ ! -f /data/selected-problems.json ]; then\n\
+  echo "Initializing data directory..."\n\
+  cp /app/selected-problems.json.template /data/selected-problems.json\n\
+fi\n\
+exec yarn start\n' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
 # 실행
-CMD ["yarn", "start"]
+CMD ["/app/entrypoint.sh"]
