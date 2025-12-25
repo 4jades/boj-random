@@ -2,16 +2,17 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Corepack 활성화 (Yarn 사용)
+# Corepack 활성화 (Yarn Berry 사용)
 RUN corepack enable
 
-# 패키지 파일 복사
-COPY package.json yarn.lock ./
+# Yarn Berry zero-install을 위한 파일 복사
+COPY package.json .yarnrc.yml ./
+COPY .yarn ./.yarn
 
-# nodeLinker를 node-modules로 설정 (PnP 대신)
-RUN echo 'nodeLinker: node-modules' > .yarnrc.yml
+# PnP 런타임 파일 복사
+COPY .pnp.cjs .pnp.loader.mjs* ./
 
-# 의존성 설치
+# 의존성 설치 (zero-install이므로 캐시에서 복원만 수행)
 RUN yarn install --immutable
 
 # 소스 복사
