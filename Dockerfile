@@ -6,7 +6,7 @@ WORKDIR /app
 RUN corepack enable
 
 # Yarn Berry zero-install을 위한 파일 복사
-COPY package.json .yarnrc.yml ./
+COPY package.json .yarnrc.yml yarn.lock ./
 COPY .yarn ./.yarn
 
 # PnP 런타임 파일 복사
