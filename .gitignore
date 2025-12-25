@@ -1,4 +1,15 @@
 config.json
-node_modules
 .idea
 dist
+
+# Yarn zero-install
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Yarn 2+ (Berry)
+.pnp.*
