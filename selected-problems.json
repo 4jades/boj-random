@@ -1,13 +1,6 @@
 {
   "problems": [
     {
-      "problemId": 25393,
-      "title": "교집합 만들기",
-      "tier": "💛 Gold 5",
-      "selectedAt": "2025-12-17T14:02:27.226Z",
-      "url": "https://www.acmicpc.net/problem/25393"
-    },
-    {
       "problemId": 5582,
       "title": "공통 부분 문자열",
       "tier": "💛 Gold 5",
@@ -27,6 +20,20 @@
       "tier": "💛 Gold 4",
       "selectedAt": "2025-12-22T14:06:45.802Z",
       "url": "https://www.acmicpc.net/problem/10159"
+    },
+    {
+      "problemId": 10282,
+      "title": "해킹",
+      "tier": "💛 Gold 4",
+      "selectedAt": "2025-12-23T23:02:10.802Z",
+      "url": "https://www.acmicpc.net/problem/10282"
+    },
+    {
+      "problemId": 1911,
+      "title": "흙길 보수하기",
+      "tier": "💛 Gold 5",
+      "selectedAt": "2025-12-24T23:07:11.802Z",
+      "url": "https://www.acmicpc.net/problem/1911"
     }
   ]
 }

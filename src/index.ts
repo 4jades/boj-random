@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
+import * as http from "node:http";
 import {
   Client,
   GatewayIntentBits,
@@ -430,6 +431,31 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
       await handleResetCommand(interaction);
       break;
   }
+});
+
+// ============================================================
+// HTTP 헬스체크 서버 (fly.io 머신 유지용)
+// ============================================================
+
+const PORT = process.env.PORT || 3000;
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/health' || req.url === '/') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'ok',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+      bot: client.user?.tag || 'not ready'
+    }));
+  } else {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Not found' }));
+  }
+});
+
+server.listen(PORT, () => {
+  console.log(`🏥 헬스체크 서버가 포트 ${PORT}에서 실행 중입니다`);
 });
 
 // 봇 로그인
