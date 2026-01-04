@@ -200,6 +200,85 @@ function getRandomElement<T>(array: T[]): T {
 }
 
 /**
+ * 특정 유저가 푼 문제 목록 가져오기
+ */
+async function fetchUserSolvedProblems(userId: string): Promise<Set<number>> {
+  const solvedProblems = new Set<number>();
+  let page = 1;
+  const maxPages = 100;
+
+  try {
+    while (page <= maxPages) {
+      const url = `${SOLVED_AC_API_BASE}/search/problem?query=solved_by:${userId}&page=${page}&sort=id&direction=asc`;
+      const response = await fetch(url, {
+        headers: { 'x-solvedac-language': 'ko' },
+      });
+
+      if (!response.ok) {
+        break;
+      }
+
+      const data = (await response.json()) as SearchResponse;
+
+      if (data.items.length === 0) {
+        break;
+      }
+
+      for (const problem of data.items) {
+        solvedProblems.add(problem.problemId);
+      }
+
+      if (solvedProblems.size >= data.count) {
+        break;
+      }
+
+      page++;
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+  } catch (error) {
+    console.error(`Failed to fetch solved problems for ${userId}:`, error);
+  }
+
+  return solvedProblems;
+}
+
+/**
+ * 유저별 통계 계산
+ */
+async function calculateUserStats(): Promise<
+  Array<{ userId: string; solved: number; unsolved: number; total: number }>
+> {
+  const selectedData = loadSelectedProblems();
+  const selectedProblemIds = selectedData.problems.map((p) => p.problemId);
+
+  const stats = [];
+
+  for (const userId of EXCLUDE_USER_IDS) {
+    const solvedProblems = await fetchUserSolvedProblems(userId);
+
+    let solved = 0;
+    let unsolved = 0;
+
+    for (const problemId of selectedProblemIds) {
+      if (solvedProblems.has(problemId)) {
+        solved++;
+      } else {
+        unsolved++;
+      }
+    }
+
+    stats.push({
+      userId,
+      solved,
+      unsolved,
+      total: selectedProblemIds.length,
+    });
+  }
+
+  return stats;
+}
+
+/**
  * 랜덤 문제 선택
  */
 async function selectRandomProblem(): Promise<{
@@ -266,6 +345,9 @@ const commands = [
         .setMinValue(1)
         .setMaxValue(20)
     ),
+  new SlashCommandBuilder()
+    .setName('boj-stats')
+    .setDescription('유저별 문제 풀이 통계를 확인합니다'),
   new SlashCommandBuilder()
     .setName('boj-reset')
     .setDescription('선택 기록을 초기화합니다'),
@@ -388,6 +470,70 @@ async function handleHistoryCommand(
   await interaction.reply({ embeds: [embed] });
 }
 
+// /stats 커맨드 핸들러
+async function handleStatsCommand(
+  interaction: ChatInputCommandInteraction
+): Promise<void> {
+  await interaction.deferReply();
+
+  try {
+    const stats = await calculateUserStats();
+
+    if (stats.length === 0 || stats[0].total === 0) {
+      const embed = new EmbedBuilder()
+        .setColor(0x808080)
+        .setTitle('📊 유저별 통계')
+        .setDescription(
+          '아직 선택된 문제가 없습니다. `/boj-random` 명령어로 문제를 선택해보세요!'
+        );
+
+      await interaction.editReply({ embeds: [embed] });
+      return;
+    }
+
+    // 통계를 코드 블록 형식으로 포맷팅
+    const longestName = Math.max(...stats.map((s) => s.userId.length));
+    const header = `유저${' '.repeat(longestName - 2)} | 완료 | 미완료 | 진행률`;
+    const separator = '-'.repeat(header.length);
+
+    const rows = stats.map((stat) => {
+      const padding = ' '.repeat(longestName - stat.userId.length);
+      const percentage = stat.total > 0
+        ? ((stat.solved / stat.total) * 100).toFixed(1)
+        : '0.0';
+      const solvedStr = stat.solved.toString().padStart(4);
+      const unsolvedStr = stat.unsolved.toString().padStart(6);
+      const percentStr = `${percentage}%`.padStart(7);
+
+      return `${stat.userId}${padding} |${solvedStr} |${unsolvedStr} | ${percentStr}`;
+    });
+
+    const tableContent = [header, separator, ...rows].join('\n');
+
+    const embed = new EmbedBuilder()
+      .setColor(0x00b4fc)
+      .setTitle('📊 유저별 문제 풀이 통계')
+      .setDescription(`\`\`\`\n${tableContent}\n\`\`\``)
+      .setFooter({
+        text: `총 ${stats[0].total}개의 문제가 선택됨`,
+      })
+      .setTimestamp();
+
+    await interaction.editReply({ embeds: [embed] });
+  } catch (error) {
+    console.error('통계 조회 오류:', error);
+
+    const embed = new EmbedBuilder()
+      .setColor(0xff0000)
+      .setTitle('❌ 오류 발생')
+      .setDescription(
+        '통계를 가져오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+      );
+
+    await interaction.editReply({ embeds: [embed] });
+  }
+}
+
 // /reset 커맨드 핸들러
 async function handleResetCommand(
   interaction: ChatInputCommandInteraction
@@ -423,6 +569,9 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
       break;
     case 'boj-history':
       await handleHistoryCommand(interaction);
+      break;
+    case 'boj-stats':
+      await handleStatsCommand(interaction);
       break;
     case 'boj-reset':
       await handleResetCommand(interaction);
