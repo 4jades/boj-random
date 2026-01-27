@@ -12,6 +12,7 @@ import {
   ChatInputCommandInteraction,
   Events,
   SlashCommandIntegerOption,
+  SlashCommandBooleanOption,
   Interaction,
 } from 'discord.js';
 
@@ -130,10 +131,12 @@ function saveSelectedProblems(data: SelectedProblemsData): void {
 }
 
 /**
- * 검색 쿼리 생성 (골드 4~5 + 맞은 사람 5000명 이상 + 유저가 푼 문제 제외)
+ * 검색 쿼리 생성 (맞은 사람 5000명 이상 + 유저가 푼 문제 제외)
+ * @param hard true면 골드 3~2 (g3..g2), false면 골드 4~5 (g5..g4)
  */
-function buildSearchQuery(): string {
-  let query = 'tier:g5..g4 solved:5000..';
+function buildSearchQuery(hard: boolean = false): string {
+  const tierRange = hard ? 'tier:g3..g2' : 'tier:g5..g4';
+  let query = `${tierRange} solved:5000..`;
 
   if (EXCLUDE_USER_IDS.length > 0) {
     const excludeConditions = EXCLUDE_USER_IDS.map(
@@ -146,10 +149,13 @@ function buildSearchQuery(): string {
 }
 
 /**
- * solved.ac API로 골드 4~5 문제 검색
+ * solved.ac API로 문제 검색 (hard: g3~g2, 기본: g5~g4)
  */
-async function fetchGoldProblems(page: number = 1): Promise<SearchResponse> {
-  const query = encodeURIComponent(buildSearchQuery());
+async function fetchProblems(
+  page: number = 1,
+  hard: boolean = false
+): Promise<SearchResponse> {
+  const query = encodeURIComponent(buildSearchQuery(hard));
   const url = `${SOLVED_AC_API_BASE}/search/problem?query=${query}&page=${page}&sort=random`;
 
   const response = await fetch(url, {
@@ -164,15 +170,15 @@ async function fetchGoldProblems(page: number = 1): Promise<SearchResponse> {
 }
 
 /**
- * 모든 골드 4~5 문제 가져오기
+ * 조건에 맞는 문제 전부 가져오기 (hard: g3~g2, 기본: g5~g4)
  */
-async function fetchAllGoldProblems(): Promise<SolvedProblem[]> {
+async function fetchAllProblems(hard: boolean = false): Promise<SolvedProblem[]> {
   const allProblems: SolvedProblem[] = [];
   let page = 1;
   const maxPages = 50;
 
   while (page <= maxPages) {
-    const response = await fetchGoldProblems(page);
+    const response = await fetchProblems(page, hard);
 
     if (response.items.length === 0) {
       break;
@@ -280,8 +286,9 @@ async function calculateUserStats(): Promise<
 
 /**
  * 랜덤 문제 선택
+ * @param hard true면 골드 3~2, false면 골드 4~5
  */
-async function selectRandomProblem(): Promise<{
+async function selectRandomProblem(hard: boolean = false): Promise<{
   problem: SolvedProblem;
   record: SelectedProblemRecord;
   availableCount: number;
@@ -290,7 +297,7 @@ async function selectRandomProblem(): Promise<{
   const selectedData = loadSelectedProblems();
   const selectedIds = new Set(selectedData.problems.map((p) => p.problemId));
 
-  const allProblems = await fetchAllGoldProblems();
+  const allProblems = await fetchAllProblems(hard);
   const availableProblems = allProblems.filter(
     (p) => !selectedIds.has(p.problemId)
   );
@@ -334,7 +341,12 @@ const client = new Client({
 const commands = [
   new SlashCommandBuilder()
     .setName('boj-random')
-    .setDescription('랜덤으로 골드 4~5 백준 문제를 선택합니다'),
+    .setDescription('랜덤으로 골드 4~5 백준 문제를 선택합니다')
+    .addBooleanOption((option: SlashCommandBooleanOption) =>
+      option
+        .setName('hard')
+        .setDescription('true면 골드 3~2 난이도를 추천합니다 (기본: 골드 4~5)')
+    ),
   new SlashCommandBuilder()
     .setName('boj-history')
     .setDescription('최근 선택된 문제 목록을 확인합니다')
@@ -376,15 +388,18 @@ async function handleRandomCommand(
 ): Promise<void> {
   await interaction.deferReply();
 
+  const hard = interaction.options.getBoolean('hard') ?? false;
+
   try {
-    const result = await selectRandomProblem();
+    const result = await selectRandomProblem(hard);
 
     if (result === null) {
+      const tierRange = hard ? '골드 3~2' : '골드 4~5';
       const embed = new EmbedBuilder()
         .setColor(0xff6b6b)
         .setTitle('⚠️ 문제 없음')
         .setDescription(
-          '모든 골드 4~5 문제를 이미 선택했습니다!\n`/reset` 명령어로 기록을 초기화하세요.'
+          `모든 ${tierRange} 문제를 이미 선택했습니다!\n\`/boj-reset\` 명령어로 기록을 초기화하세요.`
         );
 
       await interaction.editReply({ embeds: [embed] });
