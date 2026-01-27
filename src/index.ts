@@ -341,11 +341,11 @@ const client = new Client({
 const commands = [
   new SlashCommandBuilder()
     .setName('boj-random')
-    .setDescription('랜덤으로 골드 4~5 백준 문제를 선택합니다')
+    .setDescription('랜덤으로 골드 4~5 백준 문제를 선택합니다. hard 옵션 시 골드 3~2.')
     .addBooleanOption((option: SlashCommandBooleanOption) =>
       option
         .setName('hard')
-        .setDescription('true면 골드 3~2 난이도를 추천합니다 (기본: 골드 4~5)')
+        .setDescription('true면 골드 3~2 난이도 추천 (기본: 골드 4~5)')
     ),
   new SlashCommandBuilder()
     .setName('boj-history')
