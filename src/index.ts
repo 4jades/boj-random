@@ -1,7 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
-import * as http from "node:http";
 import {
   Client,
   GatewayIntentBits,
@@ -30,7 +29,7 @@ const EXCLUDE_USER_IDS: string[] = [
   'xornjsrlaals',
 ];
 
-// 설정 파일 경로 (fly.io Volume 사용 시 /data, 로컬 개발 시 현재 디렉토리)
+// 설정 파일 경로 (기본: 프로젝트 루트)
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..');
 const SELECTED_PROBLEMS_PATH = path.join(DATA_DIR, 'selected-problems.json');
 
@@ -252,10 +251,9 @@ async function fetchUserSolvedProblems(userId: string): Promise<Set<number>> {
  * 유저별 통계 계산
  */
 async function calculateUserStats(): Promise<
-  Array<{ userId: string; solved: number; unsolved: number; total: number }>
+  Array<{ userId: string; solved: number; unsolved: number; total: number; unsolvedProblems: SelectedProblemRecord[] }>
 > {
   const selectedData = loadSelectedProblems();
-  const selectedProblemIds = selectedData.problems.map((p) => p.problemId);
 
   const stats = [];
 
@@ -263,21 +261,22 @@ async function calculateUserStats(): Promise<
     const solvedProblems = await fetchUserSolvedProblems(userId);
 
     let solved = 0;
-    let unsolved = 0;
+    const unsolvedProblems: SelectedProblemRecord[] = [];
 
-    for (const problemId of selectedProblemIds) {
-      if (solvedProblems.has(problemId)) {
+    for (const problem of selectedData.problems) {
+      if (solvedProblems.has(problem.problemId)) {
         solved++;
       } else {
-        unsolved++;
+        unsolvedProblems.push(problem);
       }
     }
 
     stats.push({
       userId,
       solved,
-      unsolved,
-      total: selectedProblemIds.length,
+      unsolved: unsolvedProblems.length,
+      total: selectedData.problems.length,
+      unsolvedProblems,
     });
   }
 
@@ -534,6 +533,29 @@ async function handleStatsCommand(
       })
       .setTimestamp();
 
+    for (const stat of stats) {
+      if (stat.unsolvedProblems.length === 0) {
+        embed.addFields({ name: `✅ ${stat.userId}`, value: '모든 문제 완료!' });
+        continue;
+      }
+
+      const lines: string[] = [];
+      for (const p of stat.unsolvedProblems) {
+        const line = `• [${p.title}](${p.url}) - ${p.tier}`;
+        if ((lines.join('\n') + '\n' + line).length > 950) {
+          const remaining = stat.unsolvedProblems.length - lines.length;
+          lines.push(`...외 ${remaining}개`);
+          break;
+        }
+        lines.push(line);
+      }
+
+      embed.addFields({
+        name: `❌ ${stat.userId} (${stat.unsolvedProblems.length}개 미완료)`,
+        value: lines.join('\n'),
+      });
+    }
+
     await interaction.editReply({ embeds: [embed] });
   } catch (error) {
     console.error('통계 조회 오류:', error);
@@ -592,31 +614,6 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
       await handleResetCommand(interaction);
       break;
   }
-});
-
-// ============================================================
-// HTTP 헬스체크 서버 (fly.io 머신 유지용)
-// ============================================================
-
-const PORT = process.env.PORT || 3000;
-
-const server = http.createServer((req, res) => {
-  if (req.url === '/health' || req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      status: 'ok',
-      uptime: process.uptime(),
-      timestamp: new Date().toISOString(),
-      bot: client.user?.tag || 'not ready'
-    }));
-  } else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Not found' }));
-  }
-});
-
-server.listen(PORT, () => {
-  console.log(`🏥 헬스체크 서버가 포트 ${PORT}에서 실행 중입니다`);
 });
 
 // 봇 로그인
